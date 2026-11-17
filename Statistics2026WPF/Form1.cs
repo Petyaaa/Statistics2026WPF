@@ -105,20 +105,16 @@ namespace Statistics2026WPF
 
         private void btbMode_Click(object sender, EventArgs e)
         {
-            double median;
             var numbers = txtNumbers.Text.Split(' ').Select(double.Parse).ToList();
 
-            var groups = numbers.GroupBy(n => n).ToList();
-            int maxCount = groups.Max(g => groups.Count());
-            List<double> modes = groups.Where(g => g.Count() == maxCount).Select(g => g.Key).ToList();
+ int maxCount = numbers.GroupBy(n => n).Max(g => g.Count());
 
+ var modes = numbers.GroupBy(n => n)
+     .Where(g => g.Count() == maxCount)
+     .Select(g => g.Key)
+     .ToList();
 
-            var modeMultiple = numbers.GroupBy(n => n)
-                .OrderByDescending(g => g.Count())
-                .Where(g => g.Count() == numbers.GroupBy(n => n).Max(g2 => g2.Count()))
-                .Select(g => g.Key)
-                .ToList();
-            lblOutput.Text = "Answer: " + modeMultiple;
+ lblOutput.Text = "Answer: " + string.Join(", ", modes);
         }
 
         private void lblOutput_Click(object sender, EventArgs e)
