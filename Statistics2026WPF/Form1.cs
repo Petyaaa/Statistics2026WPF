@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,7 +26,7 @@ namespace Statistics2026WPF
         private void btnchart_Click(object sender, EventArgs e)
         {
             chart1.Series.Clear();
-            var number = txtNumbers.Text.Split(' ').Select(n => double.Parse(n)).ToArray();
+            var number = txtNumbers.Text.Replace(",", ".").Split(' ').Select(n => double.Parse(n)).ToArray();
             chart1.Series.Add("Numbers");
             chart1.Series["Numbers"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
             foreach (var n in number)
@@ -43,15 +43,15 @@ namespace Statistics2026WPF
 
         private void btnshow_Click(object sender, EventArgs e)
         {
-            var numbers = txtNumbers.Text.Split(' ').Select(double.Parse).ToList();
+            var numbers = txtNumbers.Text.Replace(",", ".").Split(' ').Select(double.Parse).ToList();
             var average = numbers.Average();
-            lblOutput.Text = "Answer: " + average;
+            lblOutput.Text = $"Answer: {average:F2}";
         }
 
         private void btnpie_Click(object sender, EventArgs e)
         {
             chart1.Series.Clear();
-            var number = txtNumbers.Text.Split(' ').Select(n => double.Parse(n)).ToArray();
+            var number = txtNumbers.Text.Replace(",", ".").Split(' ').Select(n => double.Parse(n)).ToArray();
             chart1.Series.Add("Numbers");
             chart1.Series["Numbers"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
             foreach (var n in number)
@@ -60,12 +60,12 @@ namespace Statistics2026WPF
             }
 
         }
-        
+
 
         private void btnline_Click(object sender, EventArgs e)
         {
             chart1.Series.Clear();
-            var number = txtNumbers.Text.Split(' ').Select(n => double.Parse(n)).ToArray();
+            var number = txtNumbers.Text.Replace(",", ".").Split(' ').Select(n => double.Parse(n)).ToArray();
             chart1.Series.Add("Numbers");
             chart1.Series["Numbers"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             foreach (var n in number)
@@ -74,11 +74,11 @@ namespace Statistics2026WPF
             }
 
         }
-        
+
 
         private void txtNumbers_TextChanged(object sender, EventArgs e)
         {
-            int numbers = txtNumbers.Text.Split(' ').Length;
+            int numbers = txtNumbers.Text.Replace(",", ".").Split(' ').Length;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -88,7 +88,7 @@ namespace Statistics2026WPF
 
         private void btnMedian_Click(object sender, EventArgs e)
         {
-            var numbers = txtNumbers.Text.Split(' ').Select(double.Parse).ToList();
+            var numbers = txtNumbers.Text.Replace(",", ".").Split(' ').Select(double.Parse).ToList();
             numbers.Sort();
             double median;
             int count = numbers.Count;
@@ -105,16 +105,16 @@ namespace Statistics2026WPF
 
         private void btbMode_Click(object sender, EventArgs e)
         {
-            var numbers = txtNumbers.Text.Split(' ').Select(double.Parse).ToList();
+            var numbers = txtNumbers.Text.Replace(",", ".").Split(' ').Select(double.Parse).ToList();
 
- int maxCount = numbers.GroupBy(n => n).Max(g => g.Count());
+            int maxCount = numbers.GroupBy(n => n).Max(g => g.Count());
 
- var modes = numbers.GroupBy(n => n)
-     .Where(g => g.Count() == maxCount)
-     .Select(g => g.Key)
-     .ToList();
+            var modes = numbers.GroupBy(n => n)
+                .Where(g => g.Count() == maxCount)
+                .Select(g => g.Key)
+                .ToList();
 
- lblOutput.Text = "Answer: " + string.Join(", ", modes);
+            lblOutput.Text = "Answer: " + string.Join(", ", modes);
         }
 
         private void lblOutput_Click(object sender, EventArgs e)
